@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5D1BF80A1AEC0DCA006825CF /* USDAItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1BF8091AEC0DCA006825CF /* USDAItem.swift */; };
 		5D5C113D1AC1F634003FAADD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5C113C1AC1F634003FAADD /* AppDelegate.swift */; };
 		5D5C11401AC1F634003FAADD /* FoodTracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5D5C113E1AC1F634003FAADD /* FoodTracker.xcdatamodeld */; };
 		5D5C11421AC1F634003FAADD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5C11411AC1F634003FAADD /* ViewController.swift */; };
@@ -14,6 +15,7 @@
 		5D5C11471AC1F634003FAADD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D5C11461AC1F634003FAADD /* Images.xcassets */; };
 		5D5C114A1AC1F634003FAADD /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D5C11481AC1F634003FAADD /* LaunchScreen.xib */; };
 		5D5C11561AC1F634003FAADD /* FoodTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5C11551AC1F634003FAADD /* FoodTrackerTests.swift */; };
+		5DA42E291AD93F7500C3B520 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA42E281AD93F7500C3B520 /* DataController.swift */; };
 		5DD609D21AC5517F00F39E4A /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD609D11AC5517F00F39E4A /* DetailViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -28,6 +30,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5D1BF8091AEC0DCA006825CF /* USDAItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = USDAItem.swift; sourceTree = "<group>"; };
 		5D5C11371AC1F634003FAADD /* FoodTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoodTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D5C113B1AC1F634003FAADD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5D5C113C1AC1F634003FAADD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -39,6 +42,7 @@
 		5D5C114F1AC1F634003FAADD /* FoodTrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FoodTrackerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D5C11541AC1F634003FAADD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5D5C11551AC1F634003FAADD /* FoodTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodTrackerTests.swift; sourceTree = "<group>"; };
+		5DA42E281AD93F7500C3B520 /* DataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		5DD609D11AC5517F00F39E4A /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -83,11 +87,13 @@
 			children = (
 				5D5C113C1AC1F634003FAADD /* AppDelegate.swift */,
 				5D5C11411AC1F634003FAADD /* ViewController.swift */,
+				5DA42E281AD93F7500C3B520 /* DataController.swift */,
 				5DD609D11AC5517F00F39E4A /* DetailViewController.swift */,
 				5D5C11431AC1F634003FAADD /* Main.storyboard */,
 				5D5C11461AC1F634003FAADD /* Images.xcassets */,
 				5D5C11481AC1F634003FAADD /* LaunchScreen.xib */,
 				5D5C113E1AC1F634003FAADD /* FoodTracker.xcdatamodeld */,
+				5D1BF8091AEC0DCA006825CF /* USDAItem.swift */,
 				5D5C113A1AC1F634003FAADD /* Supporting Files */,
 			);
 			path = FoodTracker;
@@ -218,8 +224,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5DA42E291AD93F7500C3B520 /* DataController.swift in Sources */,
 				5D5C11421AC1F634003FAADD /* ViewController.swift in Sources */,
 				5D5C11401AC1F634003FAADD /* FoodTracker.xcdatamodeld in Sources */,
+				5D1BF80A1AEC0DCA006825CF /* USDAItem.swift in Sources */,
 				5D5C113D1AC1F634003FAADD /* AppDelegate.swift in Sources */,
 				5DD609D21AC5517F00F39E4A /* DetailViewController.swift in Sources */,
 			);
