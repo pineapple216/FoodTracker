@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSource, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating {
 
@@ -27,6 +28,8 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
 	var jsonResponse:NSDictionary!
 	
 	var dataController = DataController()
+	
+	var favoritedUSDAItems: [AnyObject] = []
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -75,7 +78,7 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
 			return self.apiSearchForFoods.count
 		}
 		else{
-			return 0
+			return self.favoritedUSDAItems.count
 		}
 	}
 	
@@ -99,7 +102,7 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
 			foodName = apiSearchForFoods[indexPath.row].name
 		}
 		else{
-			foodName = ""
+			foodName = self.favoritedUSDAItems[indexPath.row].name
 		}
 		
 		cell.textLabel?.text = foodName
@@ -163,6 +166,11 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
 	}
 	
 	func searchBar(searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+		
+		if selectedScope == 2{
+			requestFavoritedUSDAItems()
+		}
+		
 		self.tableView.reloadData()
 	}
 	
@@ -228,7 +236,14 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
 			
 		})
 		task.resume()
-		
+	}
+	
+	// MARK: - Setup CoreData
+	func requestFavoritedUSDAItems () {
+		let fetchRequest = NSFetchRequest(entityName: "USDAItem")
+		let appDelegate = (UIApplication.sharedApplication().delegate as! AppDelegate)
+		let managedObjectContext = appDelegate.managedObjectContext
+		self.favoritedUSDAItems = managedObjectContext?.executeFetchRequest(fetchRequest, error: nil) as! [USDAItem]
 	}
 	
 
