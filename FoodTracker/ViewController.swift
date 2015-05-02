@@ -23,13 +23,15 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
 	
 	var apiSearchForFoods:[(name: String, idValue: String)] = []
 	
+	var favoritedUSDAItems: [USDAItem] = []
+	var filteredFavoritedUSDAItems:[USDAItem] = []
+	
 	var scopeButtonTitles = ["Recommended","Search Results","Saved"]
 	
 	var jsonResponse:NSDictionary!
 	
 	var dataController = DataController()
 	
-	var favoritedUSDAItems: [AnyObject] = []
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -74,11 +76,18 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
 				return self.suggestedSearchFoods.count
 			}
 		}
+			
 		else if selectedScopeButtonIndex == 1{
 			return self.apiSearchForFoods.count
 		}
+			
 		else{
-			return self.favoritedUSDAItems.count
+			if self.searchController.active{
+				return self.filteredFavoritedUSDAItems.count
+			}
+			else{
+				return self.favoritedUSDAItems.count
+			}
 		}
 	}
 	
@@ -102,7 +111,12 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
 			foodName = apiSearchForFoods[indexPath.row].name
 		}
 		else{
-			foodName = self.favoritedUSDAItems[indexPath.row].name
+			if self.searchController.active{
+				foodName = self.filteredFavoritedUSDAItems[indexPath.row].name
+			}
+			else{
+				foodName = self.favoritedUSDAItems[indexPath.row].name
+			}
 		}
 		
 		cell.textLabel?.text = foodName
@@ -153,10 +167,20 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
 	}
 	
 	func filterContentForSearch(searchText: String, scope: Int){
-		self.filteredSuggestedSearchFoods = self.suggestedSearchFoods.filter({ (food : String) -> Bool in
-			var foodMatch = food.rangeOfString(searchText)
-			return foodMatch != nil
-		})
+		if scope == 0{
+			self.filteredSuggestedSearchFoods = self.suggestedSearchFoods.filter({ (food : String) -> Bool in
+				var foodMatch = food.lowercaseString.rangeOfString(searchText)
+				return foodMatch != nil
+			})
+		}
+		else if scope == 2{
+			self.filteredFavoritedUSDAItems = self.favoritedUSDAItems.filter({ (item: USDAItem) -> Bool in
+				var stringMatch = item.name.lowercaseString.rangeOfString(searchText)
+				return stringMatch != nil
+			})
+		}
+		
+		
 	}
 	
 	// MARK: - UISearchBarDelegate
