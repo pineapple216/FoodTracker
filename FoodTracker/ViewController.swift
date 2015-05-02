@@ -26,6 +26,8 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
 	
 	var jsonResponse:NSDictionary!
 	
+	var dataController = DataController()
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		// Do any additional setup after loading the view, typically from a nib.
@@ -125,7 +127,10 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
 			makeRequest(searchFoodName)
 		}
 		else if selectedScopeButtonIndex == 1{
-			
+			// Get the idValue of the selected item
+			let idValue = apiSearchForFoods[indexPath.row].idValue
+			// Save the selected item to CoreData
+			self.dataController.saveUSDAItemForID(idValue, json: self.jsonResponse)
 		}
 		else if selectedScopeButtonIndex == 2{
 			
