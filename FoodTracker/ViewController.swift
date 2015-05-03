@@ -55,6 +55,21 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
 		// Array with suggested foods
 		self.suggestedSearchFoods = ["apple", "bagel", "banana", "beer", "bread", "carrots", "cheddar cheese", "chicen breast", "chili with beans", "chocolate chip cookie", "coffee", "cola", "corn", "egg", "graham cracker", "granola bar", "green beans", "ground beef patty", "hot dog", "ice cream", "jelly doughnut", "ketchup", "milk", "mixed nuts", "mustard", "oatmeal", "orange juice", "peanut butter", "pizza", "pork chop", "potato", "potato chips", "pretzels", "raisins", "ranch salad dressing", "red wine", "rice", "salsa", "shrimp", "spaghetti", "spaghetti sauce", "tuna", "white wine", "yellow cake"]
 		
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "usdaItemDidComplete:", name: kUSDAItemCompleted, object: nil)
+		
+	}
+	
+	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+		if segue.identifier == "toDetailVCSegue"{
+			if sender != nil{
+				var detailVC = segue.destinationViewController as! DetailViewController
+				detailVC.usdaItem = sender as? USDAItem
+			}
+		}
+	}
+	
+	deinit{
+		NSNotificationCenter.defaultCenter().removeObserver(self)
 	}
 
 	override func didReceiveMemoryWarning() {
@@ -144,13 +159,25 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
 			makeRequest(searchFoodName)
 		}
 		else if selectedScopeButtonIndex == 1{
+			self.performSegueWithIdentifier("toDetailVCSegue", sender: nil)
 			// Get the idValue of the selected item
 			let idValue = apiSearchForFoods[indexPath.row].idValue
 			// Save the selected item to CoreData
 			self.dataController.saveUSDAItemForID(idValue, json: self.jsonResponse)
 		}
 		else if selectedScopeButtonIndex == 2{
-			
+			if self.searchController.active{
+				let usdaItem = filteredFavoritedUSDAItems[indexPath.row]
+				
+				// Segue to the detailViewController
+				self.performSegueWithIdentifier("toDetailVCSegue", sender: usdaItem)
+			}
+			else{
+				let usdaItem = favoritedUSDAItems[indexPath.row]
+				
+				// Segue to the detailViewController
+				self.performSegueWithIdentifier("toDetailVCSegue", sender: usdaItem)
+			}
 		}
 		
 	}
@@ -235,7 +262,7 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
 			var conversionError:NSError?
 			var jsonDictionary = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableLeaves, error: &conversionError) as? NSDictionary
 			
-			println(jsonDictionary)
+			//println(jsonDictionary)
 			
 			if conversionError != nil{
 				println(conversionError!.localizedDescription)
@@ -246,7 +273,7 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
 				if jsonDictionary != nil{
 					self.jsonResponse = jsonDictionary!
 					self.apiSearchForFoods = DataController.jsonAsUSDAIdAndNameSearchResults(jsonDictionary!)
-					// Updat the UI on the main thread
+					// Update the UI on the main thread
 					dispatch_async(dispatch_get_main_queue(), { () -> Void in
 						self.tableView.reloadData()
 					})
@@ -268,6 +295,18 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
 		let appDelegate = (UIApplication.sharedApplication().delegate as! AppDelegate)
 		let managedObjectContext = appDelegate.managedObjectContext
 		self.favoritedUSDAItems = managedObjectContext?.executeFetchRequest(fetchRequest, error: nil) as! [USDAItem]
+	}
+	
+	// MARK: - NSNotificationCenter
+	
+	func usdaItemDidComplete(notification: NSNotification){
+		println("usdaItemDidComplete in ViewController")
+		requestFavoritedUSDAItems()
+		let selectedScopeButtonIndex = self.searchController.searchBar.selectedScopeButtonIndex
+		
+		if selectedScopeButtonIndex == 2{
+			self.tableView.reloadData()
+		}
 	}
 	
 

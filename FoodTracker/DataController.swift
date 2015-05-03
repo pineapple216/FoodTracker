@@ -10,6 +10,8 @@ import Foundation
 import UIKit
 import CoreData
 
+let kUSDAItemCompleted = "USDAItemInstanceComplete"
+
 class DataController{
 	
 	class func jsonAsUSDAIdAndNameSearchResults(json:NSDictionary) -> [(name: String, idValue: String)]{
@@ -181,6 +183,8 @@ class DataController{
 								
 								// Actually save the usdaItem we just created to CoreData
 								(UIApplication.sharedApplication().delegate as! AppDelegate).saveContext()
+								
+								NSNotificationCenter.defaultCenter().postNotificationName(kUSDAItemCompleted, object: usdaItem)
 								
 							}
 						}
